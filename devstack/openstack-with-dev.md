@@ -1,7 +1,7 @@
 ## Introduction
-....
+This guide describes how to install openstack with zun and kata on ubuntu 20.04 using devstack.
 
-## Setup OpenStack with zun and kaka runtime
+## Setup OpenStack environment with zun and kaka
 ```sh
 sudo -i
 hostnamectl set-hostname zun-kata.test.com
