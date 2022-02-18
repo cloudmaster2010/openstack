@@ -35,22 +35,26 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin kuryr-libnetwork https:\/\/op
 
 
 ## Adding port(ens4) to the external bridge(br-ex)
+```sh
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
   protocols=OpenFlow13
+```
 
 ## Mapping pubilc:br-ex to go though external.
+```sh
 ovs-vsctl set open . external-ids:ovn-bridge-mappings=public:br-ex
-
 ovs-vsctl --may-exist add-port br-ex ens4
-
+```
 ## Creating external network named public 
+```sh
 openstack network create --external --share \
   --provider-physical-network public --provider-network-type flat \
   public
-
+```
 ## Creating ip range for external network
+```sh
 openstack subnet create --network public --subnet-range \
   192.168.103.0/24 --allocation-pool start=192.168.103.151,end=192.168.103.160 \
   --dns-nameserver 8.8.8.8 --gateway 192.168.103.1 public-sub
-  
+```  
   
