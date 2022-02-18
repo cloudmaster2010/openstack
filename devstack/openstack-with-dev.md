@@ -1,8 +1,8 @@
-# Introduction
+## Introduction
 ....
 
-# Setup OpenStack with zun and kaka runtime
-
+## Setup OpenStack with zun and kaka runtime
+```sh
 sudo -i
 hostnamectl set-hostname zun-kata.test.com
 hostnamectl set-hostname zun-kata.test.com --transient
@@ -29,26 +29,26 @@ echo "enable_plugin zun-ui https://opendev.org/openstack/zun-ui \$TARGET_BRANCH"
 
 sed -i "s/\# KURYR_CAPABILITY_SCOPE=.*/KURYR_CAPABILITY_SCOPE=global/" /opt/stack/devstack/local.conf
 sed -i "s/\# enable_plugin zun-ui .*/enable_plugin kuryr-libnetwork https:\/\/opendev.org\/openstack\/kuryr-libnetwork \$TARGET_BRANCH/" /opt/stack/devstack/local.conf
+```
 
 
 
 
-
-# Adding port(ens4) to the external bridge(br-ex)
+## Adding port(ens4) to the external bridge(br-ex)
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
   protocols=OpenFlow13
 
-# Mapping pubilc:br-ex to go though external.
+## Mapping pubilc:br-ex to go though external.
 ovs-vsctl set open . external-ids:ovn-bridge-mappings=public:br-ex
 
 ovs-vsctl --may-exist add-port br-ex ens4
 
-# Creating external network named public 
+## Creating external network named public 
 openstack network create --external --share \
   --provider-physical-network public --provider-network-type flat \
   public
 
-# Creating ip range for external network
+## Creating ip range for external network
 openstack subnet create --network public --subnet-range \
   192.168.103.0/24 --allocation-pool start=192.168.103.151,end=192.168.103.160 \
   --dns-nameserver 8.8.8.8 --gateway 192.168.103.1 public-sub
