@@ -1,3 +1,8 @@
+# Introduction
+....
+
+# Setup OpenStack with zun and kaka runtime
+
 sudo -i
 hostnamectl set-hostname zun-kata.test.com
 hostnamectl set-hostname zun-kata.test.com --transient
