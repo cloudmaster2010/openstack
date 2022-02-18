@@ -24,11 +24,8 @@ cd /opt/stack/devstack
 
 HOST_IP="$(ip -4 -o a | grep brd | head -n1 | awk '{print $4}' | cut -f1 -d'/')"
 sed -i "s/HOST_IP=.*/HOST_IP=$HOST_IP/" /opt/stack/devstack/local.conf
-echo "ENABLE_KATA_CONTAINERS=True" >> /opt/stack/devstack/local.conf
-echo "enable_plugin zun-ui https://opendev.org/openstack/zun-ui \$TARGET_BRANCH" >> /opt/stack/devstack/local.conf
-
-sed -i "s/\# KURYR_CAPABILITY_SCOPE=.*/KURYR_CAPABILITY_SCOPE=global/" /opt/stack/devstack/local.conf
-sed -i "s/\# enable_plugin zun-ui .*/enable_plugin kuryr-libnetwork https:\/\/opendev.org\/openstack\/kuryr-libnetwork \$TARGET_BRANCH/" /opt/stack/devstack/local.conf
+sed -i "s/\# ENABLE_KATA_CONTAINERS=True/ENABLE_KATA_CONTAINERS=True/" /opt/stack/devstack/local.conf
+sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\/openstack\/zun-ui \$TARGET_BRANCH/" /opt/stack/devstack/local.conf
 ```
 
 
