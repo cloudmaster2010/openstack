@@ -4,26 +4,26 @@ This includes installing the CentOS with VirtualBox, preparing and planning your
 ## Step 0. Prerequisites.   
 CentOS8 has become EOL(End of Life), so we will use CentOS7, which is the currently available OS version.
 
-### 0-1. Download VirtualBox and install it.
+#### 0-1. Download VirtualBox and install it.
 
-### 0-2. Download CentOS7.   
+#### 0-2. Download CentOS7.   
   http://ftp.nara.wide.ad.jp/pub/Linux/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso
 
-### 0-3. Choose one of the virtualization tools to install OpenStack.   
+#### 0-3. Choose one of the virtualization tools to install OpenStack.   
    - Packstack (O) <-- We chose this installer.
    - TripleO
    - devstack
 
-### 0-4. Design your OpenStack VM spec:   
+#### 0-4. Design your OpenStack VM spec:   
    -  CPU : 2 Core
    - Memory : 8196 MB(8 GB)
    - Disk : 30 GB
    - Network : 2 NICs, NAT(nic0) for internet and Host only adpater(nic1) for SSH, Dashboard
 
-### 0-5. Install CentOS with VirtualBox.   
+#### 0-5. Install CentOS with VirtualBox.   
 Check if the network IP is up and available to access. if interfaces are down, you shoud up them to access to it with SSH. 
 
-### 0-6. Uncomment "PermitRootLogin yes" to log in to openstack server with root user, and then restart sshd daemon.   
+#### 0-6. Uncomment "PermitRootLogin yes" to log in to openstack server with root user, and then restart sshd daemon.   
 ```sh
 # vi /etc/ssh/sshd_config
 PermitRootLogin yes
@@ -32,14 +32,14 @@ PermitRootLogin yes
 
 ## Step 1. Preparing OpenStack environment.
 
-### 1-1. Set locale if you are not using English locale, add it to the end of line in /etc/environment file.
+#### 1-1. Set locale if you are not using English locale, add it to the end of line in /etc/environment file.
 ```sh
  # vi /etc/environment
 export LANG=en_US.utf-8
 export LC_ALL=en_US.utf-8
 ```
 
-### 1-2. Disable and stop firewalld and NetworkManager, set ONBOOT=yes in /etc/sysconfig/network-scripts/ifcfg-enp0s3, /etc/sysconfig/network-scripts/ifcfg-enp0s8   
+#### 1-2. Disable and stop firewalld and NetworkManager, set ONBOOT=yes in /etc/sysconfig/network-scripts/ifcfg-enp0s3, /etc/sysconfig/network-scripts/ifcfg-enp0s8   
 ```sh
 # systemctl disable NetworkManager
 # systemctl stop NetworkManager
@@ -53,13 +53,13 @@ ONBOOT=yes
 ONBOOT=yes
 ```
 
-### 1-3. Set the hostname with FQDN   
+#### 1-3. Set the hostname with FQDN   
 ```sh
 #  hostnamectl set-hostname osp-train.exam.com
 #  hostnamectl set-hostname osp-train.exam.com --transient
 ```
 
-### 1-4. Check the Add IP address, hostname and FQDN and add them to the end of the line in /etc/hosts file.   
+#### 1-4. Check the Add IP address, hostname and FQDN and add them to the end of the line in /etc/hosts file.   
 ```sh
 # ip -4 -o a 
 enp0s3    inet 10.0.2.15/24 
@@ -83,17 +83,18 @@ osp-train.exam.com
 
 ## Step 2. Software repositories     
 
-### 2-1. Install software repositories   
+#### 2-1. Install software repositories   
 ```sh
 # yum update -y
 # yum install -y centos-release-openstack-train
-### 2-2. Install Packstack installer
-
+``` 
+#### 2-2. Install Packstack installer   
+```sh
 # yum update -y
 # yum install -y openstack-packstack
 ``` 
 
-### Step 3. Run Packstack to install OpenStack
+#### Step 3. Run Packstack to install OpenStack
 3-1. Generate the answer file and replace all IPs with the IP available for access to the dashboard.
 
 # packstack --gen-answer-file=ans.txt
@@ -102,7 +103,7 @@ osp-train.exam.com
 :%s/10.0.2.15/192.168.56.113/g 
 ```
 
-### 3-2. Check the IP adrresses and all components to be installed.
+#### 3-2. Check the IP adrresses and all components to be installed.
 ```sh
 # grep -i 192.168.56.113 ans.txt 
 CONFIG_CONTROLLER_HOST=192.168.56.113 
@@ -133,17 +134,17 @@ CONFIG_PROVISION_DEMO=y
 CONFIG_PROVISION_OVS_BRIDGE=y 
 ```
 
-### 3-3. Install the OpenStack.
+#### 3-3. Install the OpenStack.
 ```sh
 # packstack --answer-file=ans.txt
 ```
 
-### 3-4. You can trace the log about what packstack is doing on this openstack server by running the command below in another termnial.
+#### 3-4. You can trace the log about what packstack is doing on this openstack server by running the command below in another termnial.
 ```sh
 # journalctl -f
 ```
 
-### 3-5. After finall installation, you can see the below results
+#### 3-5. After finall installation, you can see the below results
 ```
 ......
 
@@ -165,7 +166,7 @@ Please, find your login credentials stored in the keystonerc_admin in your home 
 ```
 
 Step 4. Log in to OpenStack Dashboard and take a look at it.
-### 4-1. You can find out the information to connect to the dashboard from /root/keystonerc_admin file.
+#### 4-1. You can find out the information to connect to the dashboard from /root/keystonerc_admin file.
 ```sh
 # cat /root/keystonerc_admin
 unset OS_SERVICE_TOKEN
@@ -181,7 +182,7 @@ export OS_PROJECT_DOMAIN_NAME=Default
 export OS_IDENTITY_API_VERSION=3
 ```
 
-### 4-2. Now, you can log in to the dashboard, enjoy your journey of OpenStack. 
+#### 4-2. Now, you can log in to the dashboard, enjoy your journey of OpenStack. 
 
 OVN Network Connection Test:
 Let's test the Tenant network connection between the same tenant on the same compute. 
