@@ -58,6 +58,7 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 ![running containers page](./images/running-container.png)
 
 ## Network test between containers with CLI
+```sh
 $ zun list
 +--------------------------------------+---------+--------+---------+------------+--------------+-------+
 | uuid                                 | name    | image  | status  | task_state | addresses    | ports |
@@ -93,7 +94,7 @@ PING 55.55.55.222 (55.55.55.222): 56 data bytes
 64 bytes from 55.55.55.222: seq=2 ttl=64 time=0.368 ms
 64 bytes from 55.55.55.222: seq=3 ttl=64 time=0.462 ms
 ^C
-
+```
 
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
