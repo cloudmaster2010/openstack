@@ -57,6 +57,44 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 
 ![running containers page](./images/running-container.png)
 
+## Network test between containers with CLI
+$ zun list
++--------------------------------------+---------+--------+---------+------------+--------------+-------+
+| uuid                                 | name    | image  | status  | task_state | addresses    | ports |
++--------------------------------------+---------+--------+---------+------------+--------------+-------+
+| 315cde59-1d03-4cf3-ad40-7a0b8000d83b | cirros1 | cirros | Running | None       | 55.55.55.222 | []    |
+| 60a6347e-9e2a-41e7-8967-b6d7e15dde48 | cirros2 | cirros | Running | None       | 55.55.55.108 | []    |
++--------------------------------------+---------+--------+---------+------------+--------------+-------+
+
+$ docker ps | grep zun
+ee8aae72bb49   cirros:latest   "/sbin/init"   27 minutes ago   Up 27 minutes             zun-60a6347e-9e2a-41e7-8967-b6d7e15dde48
+9ecad347d918   cirros:latest   "/sbin/init"   27 minutes ago   Up 27 minutes             zun-315cde59-1d03-4cf3-ad40-7a0b8000d83b
+
+$ docker exec ee8aae72bb49 ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: dummy0: <BROADCAST,NOARP> mtu 1500 qdisc noop qlen 1000
+    link/ether b2:e2:87:4e:9a:c4 brd ff:ff:ff:ff:ff:ff
+3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1442 qdisc fq qlen 1000
+    link/ether fa:16:3e:1a:99:04 brd ff:ff:ff:ff:ff:ff
+    inet 55.55.55.108/24 brd 55.55.55.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe1a:9904/64 scope link 
+       valid_lft forever preferred_lft forever
+
+$ docker exec ee8aae72bb49 ping 55.55.55.222
+PING 55.55.55.222 (55.55.55.222): 56 data bytes
+64 bytes from 55.55.55.222: seq=0 ttl=64 time=2.383 ms
+64 bytes from 55.55.55.222: seq=1 ttl=64 time=0.751 ms
+64 bytes from 55.55.55.222: seq=2 ttl=64 time=0.368 ms
+64 bytes from 55.55.55.222: seq=3 ttl=64 time=0.462 ms
+^C
+
+
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
