@@ -10,9 +10,9 @@ CentOS8 has become EOL(End of Life), so we will use CentOS7, which is the curren
   http://ftp.nara.wide.ad.jp/pub/Linux/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso
 
 ### 0-3. Choose one of the virtualization tools to install OpenStack.   
-    - Packstack (O) <-- We chose this installer.
-    - TripleO
-    - devstack
+   - Packstack (O) <-- We chose this installer.
+   - TripleO
+   - devstack
 
 ### 0-4. Design your OpenStack VM spec:   
   a.  CPU : 2 Core
