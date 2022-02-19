@@ -1,17 +1,15 @@
 # Introduction
 This guide describes things like the following:
-  1. how to install OpenStack with zun and kata on ubuntu 20.04 using devstack.
-    
+  1. how to install OpenStack with zun and kata on ubuntu 20.04 using devstack.       
    >- Network driver is ovn
     
-  2. Navigate and manage the dashboard. 
+  2. Navigate and manage the dashboard.    
    >- Login
    >- Create network
    >- Create containers
    >- Check the status of containers is running.
 
-  3. Network test between containers with cli.
-    
+  3. Network test between containers with cli.   
   - Check the list of containers.
   - Check source/destination ips from containers.
   - Ping between containers.
