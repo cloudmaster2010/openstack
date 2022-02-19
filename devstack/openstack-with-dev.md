@@ -37,6 +37,8 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 
 2. Overivew
 
+![overview page](./images/overview.png)
+
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
