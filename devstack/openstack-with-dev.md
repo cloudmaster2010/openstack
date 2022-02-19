@@ -39,6 +39,12 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 
 ![overview page](./images/overview.png)
 
+3. Creating network
+
+![network page](./images/created-network.png)
+
+
+
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
