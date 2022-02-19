@@ -15,10 +15,10 @@ CentOS8 has become EOL(End of Life), so we will use CentOS7, which is the curren
    - devstack
 
 ### 0-4. Design your OpenStack VM spec:   
-  a.  CPU : 2 Core
-  b. Memory : 8196 MB(8 GB)
-  c. Disk : 30 GB
-  d. Network : 2 NICs, NAT(nic0) for internet and Host only adpater(nic1) for SSH, Dashboard
+   -  CPU : 2 Core
+   - Memory : 8196 MB(8 GB)
+   - Disk : 30 GB
+   - Network : 2 NICs, NAT(nic0) for internet and Host only adpater(nic1) for SSH, Dashboard
 
 ### 0-5. Install CentOS with VirtualBox.   
 Check if the network IP is up and available to access. if interfaces are down, you shoud up them to access to it with SSH. 
