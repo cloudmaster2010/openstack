@@ -1,17 +1,15 @@
-Installation of OpenStack with Packstack
-
+# OpenStack installation with Packstack
 This includes installing the CentOS with VirtualBox, preparing and planning your environment, and installation of OpenStack step by step.
 
-Step 0. Prerequisites. 
-
+## Step 0. Prerequisites. 
 CentOS8 has become EOL(End of Life), so we will use CentOS7, which is the currently available OS version.
 
-0-1. Download VirtualBox and install it.
+### 0-1. Download VirtualBox and install it.
 
-0-2. Download CentOS7.
+### 0-2. Download CentOS7.
   http://ftp.nara.wide.ad.jp/pub/Linux/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso
 
-0-3. Choose one of the virtualization tools to install OpenStack.
+### 0-3. Choose one of the virtualization tools to install OpenStack.
   a. Packstack (O) <-- We chose this installer.
   b. TripleO
   c. devstack
