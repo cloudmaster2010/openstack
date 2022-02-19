@@ -1,5 +1,5 @@
 # Introduction
-This guide describes like following:
+This guide describes things like following:
   1. how to install openstack with zun and kata on ubuntu 20.04 using devstack.
   2. Navigate and manage dashboard. 
   3. Network test between containers with cli.
