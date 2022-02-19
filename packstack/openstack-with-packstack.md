@@ -24,21 +24,23 @@ CentOS8 has become EOL(End of Life), so we will use CentOS7, which is the curren
 Check if the network IP is up and available to access. if interfaces are down, you shoud up them to access to it with SSH. 
 
 ### 0-6. Uncomment "PermitRootLogin yes" to log in to openstack server with root user, and then restart sshd daemon.
-
+```sh
 # vi /etc/ssh/sshd_config
 PermitRootLogin yes
 # systemctl restart sshd
- 
+``` 
 
 ## Step 1. Preparing OpenStack environment.
 
 ### 1-1. Set locale if you are not using English locale, add it to the end of line in /etc/environment file.
-
+```sh
  # vi /etc/environment
 export LANG=en_US.utf-8
 export LC_ALL=en_US.utf-8
-### 1-2. Disable and stop firewalld and NetworkManager, set ONBOOT=yes in /etc/sysconfig/network-scripts/ifcfg-enp0s3, /etc/sysconfig/network-scripts/ifcfg-enp0s8 
+```
 
+### 1-2. Disable and stop firewalld and NetworkManager, set ONBOOT=yes in /etc/sysconfig/network-scripts/ifcfg-enp0s3, /etc/sysconfig/network-scripts/ifcfg-enp0s8 
+```sh
 # systemctl disable NetworkManager
 # systemctl stop NetworkManager
 # systemctl disable firewalld
@@ -49,12 +51,16 @@ export LC_ALL=en_US.utf-8
 ONBOOT=yes
 # vi /etc/sysconfig/network-scripts/ifcfg-enp0s8
 ONBOOT=yes
-### 1-3. Set the hostname with FQDN
+```
 
+### 1-3. Set the hostname with FQDN
+```sh
 #  hostnamectl set-hostname osp-train.exam.com
 #  hostnamectl set-hostname osp-train.exam.com --transient
-### 1-4. Check the Add IP address, hostname and FQDN and add them to the end of the line in /etc/hosts file.
+```
 
+### 1-4. Check the Add IP address, hostname and FQDN and add them to the end of the line in /etc/hosts file.
+```sh
 # ip -4 -o a 
 enp0s3    inet 10.0.2.15/24 
 enp0s8    inet 192.168.56.113/24 
@@ -73,28 +79,31 @@ osp-train.exam.com
   SELINUX=disabled
   ....
 # reboot
- 
+``` 
 
 ## Step 2. Software repositories  
 
 ### 2-1. Install software repositories
-
+```sh
 # yum update -y
 # yum install -y centos-release-openstack-train
 ### 2-2. Install Packstack installer
 
 # yum update -y
 # yum install -y openstack-packstack
- 
+``` 
 
 ### Step 3. Run Packstack to install OpenStack
 3-1. Generate the answer file and replace all IPs with the IP available for access to the dashboard.
 
 # packstack --gen-answer-file=ans.txt
+```sh
 # vi ans.txt
 :%s/10.0.2.15/192.168.56.113/g 
-### 3-2. Check the IP adrresses and all components to be installed.
+```
 
+### 3-2. Check the IP adrresses and all components to be installed.
+```sh
 # grep -i 192.168.56.113 ans.txt 
 CONFIG_CONTROLLER_HOST=192.168.56.113 
 CONFIG_COMPUTE_HOSTS=192.168.56.113 
@@ -122,15 +131,20 @@ CONFIG_NEUTRON_METERING_AGENT_INSTALL=y
 CONFIG_HEAT_CFN_INSTALL=y 
 CONFIG_PROVISION_DEMO=y 
 CONFIG_PROVISION_OVS_BRIDGE=y 
+```
 
 ### 3-3. Install the OpenStack.
-
+```sh
 # packstack --answer-file=ans.txt
+```
+
 ### 3-4. You can trace the log about what packstack is doing on this openstack server by running the command below in another termnial.
-
+```sh
 # journalctl -f
-### 3-5. After finall installation, you can see the below results
+```
 
+### 3-5. After finall installation, you can see the below results
+```
 ......
 
  **** Installation completed successfully ****** 
@@ -148,11 +162,11 @@ Please, find your login credentials stored in the keystonerc_admin in your home 
 
 # yum install openstack-utils 
 # openstack-status
-
+```
 
 Step 4. Log in to OpenStack Dashboard and take a look at it.
 ### 4-1. You can find out the information to connect to the dashboard from /root/keystonerc_admin file.
-
+```sh
 # cat /root/keystonerc_admin
 unset OS_SERVICE_TOKEN
     export OS_USERNAME=admin
@@ -165,6 +179,8 @@ export OS_PROJECT_NAME=admin
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_IDENTITY_API_VERSION=3
+```
+
 ### 4-2. Now, you can log in to the dashboard, enjoy your journey of OpenStack. 
 
 OVN Network Connection Test:
@@ -177,7 +193,7 @@ test2 VM : 22.22.22.129/24
 Ping from 22.22.22.44 to 22.22.22.129
 
 Hypervisor environment is like below:
-
+```sh
 # ovs-vsctl show
 bf50b171-8a8e-4c25-8646-cb0e75fa7489
     Manager "ptcp:6640:127.0.0.1"
@@ -221,7 +237,7 @@ ovnmeta-0d8f55c3-4dc1-40a3-ac98-0e7b600664df (id: 0)
 ----------------------------------------------------
  1     instance-00000001              running
  2     instance-00000002              runnnig
- 
+``` 
 
 # Conclusion:
 
