@@ -1,7 +1,8 @@
 # Introduction
 This guide describes things like the following:
   1. how to install OpenStack with zun and kata on ubuntu 20.04 using devstack.
-    - Network driver is ovn
+    
+  - Network driver is ovn
     
   2. Navigate and manage the dashboard. 
     - Login
