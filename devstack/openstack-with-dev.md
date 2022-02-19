@@ -35,7 +35,7 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 
 ![login page](./images/login.png)
 
-3. Overivew
+2. Overivew
 
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
