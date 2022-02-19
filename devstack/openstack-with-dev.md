@@ -61,7 +61,7 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 ### 4.2 Choose the network   
 ![network selection page](./images/select-network.png)
 
-4.3 Check the running container   
+### 4.3 Check the running container   
 ![running containers page](./images/running-container.png)
 
 ## Network test between containers with CLI
@@ -106,24 +106,24 @@ PING 55.55.55.222 (55.55.55.222): 56 data bytes
 
 
 # Below lines from this will be managed on another page.
-## Adding port(ens4) to the external bridge(br-ex)
+#### Adding port(ens4) to the external bridge(br-ex)
 ```sh
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
   protocols=OpenFlow13
 ```
 
-## Mapping pubilc:br-ex to go though external.
+#### Mapping pubilc:br-ex to go though external.
 ```sh
 ovs-vsctl set open . external-ids:ovn-bridge-mappings=public:br-ex
 ovs-vsctl --may-exist add-port br-ex ens4
 ```
-## Creating external network named public 
+#### Creating external network named public 
 ```sh
 openstack network create --external --share \
   --provider-physical-network public --provider-network-type flat \
   public
 ```
-## Creating ip range for external network
+#### Creating ip range for external network
 ```sh
 openstack subnet create --network public --subnet-range \
   192.168.103.0/24 --allocation-pool start=192.168.103.151,end=192.168.103.160 \
