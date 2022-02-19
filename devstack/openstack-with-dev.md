@@ -30,8 +30,11 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 ./stack.sh
 ```
 
+## Navigate Dashboard
+1. login Page
+![login page](./images/login.png)
 
-
+3. Overivew
 
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
