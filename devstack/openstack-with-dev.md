@@ -109,7 +109,7 @@ PING 55.55.55.222 (55.55.55.222): 56 data bytes
 
 
 
-# Below lines from this will be managed in another page.
+# Below lines from this will be managed on another page.
 ## Adding port(ens4) to the external bridge(br-ex)
 ```sh
 ovs-vsctl --may-exist add-br br-ex -- set bridge br-ex \
