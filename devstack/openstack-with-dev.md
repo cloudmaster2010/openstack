@@ -44,9 +44,11 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 ![network page](./images/created-network.png)
 
 4. Create two cirros containers
-
+4.1 Enter name and images.
 ![cirros page](./images/cirros-image.png)
+4.2 Choose the network
 ![network selection page](./images/select-network.png)
+4.3 Check the running container
 ![running containers page](./images/running-container.png)
 
 ## Adding port(ens4) to the external bridge(br-ex)
