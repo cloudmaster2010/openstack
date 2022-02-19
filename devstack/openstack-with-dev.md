@@ -47,9 +47,11 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 4.1 Enter name and images.
 
 ![cirros page](./images/cirros-image.png)
+
 4.2 Choose the network
 
 ![network selection page](./images/select-network.png)
+
 4.3 Check the running container
 
 ![running containers page](./images/running-container.png)
