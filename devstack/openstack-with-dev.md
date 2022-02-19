@@ -44,30 +44,24 @@ sed -i "s/\# enable_plugin zun-ui .*/enable_plugin zun-ui https:\/\/opendev.org\
 ```
 
 ## Navigate and manage dashboard
-1. login Page
-
+### 1. login Page   
 ![login page](./images/login.png)
 
-2. Overivew
-
+### 2. Overivew   
 ![overview page](./images/overview.png)
 
-3. Create network
-
+### 3. Create network   
 ![network page](./images/created-network.png)
 
-4. Create two cirros containers
+## 4. Create two cirros containers
 
-4.1 Enter name and images.
-
+### 4.1 Enter name and images.   
 ![cirros page](./images/cirros-image.png)
 
-4.2 Choose the network
-
+### 4.2 Choose the network   
 ![network selection page](./images/select-network.png)
 
-4.3 Check the running container
-
+4.3 Check the running container   
 ![running containers page](./images/running-container.png)
 
 ## Network test between containers with CLI
