@@ -1,2 +1,2 @@
 # osp
-This page is summarizing the osp tasks.
+This page is to share the OpenStack pieces of knowledge with people interested in the OpenStack Platform.
