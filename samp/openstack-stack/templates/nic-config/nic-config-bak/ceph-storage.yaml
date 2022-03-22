@@ -1,0 +1,181 @@
+
+heat_template_version: rocky
+description: >
+  Software Config to drive os-net-config with 2 bonded nics on a bridge with VLANs attached for the CephStorage role.
+parameters:
+  ControlPlaneIp:
+    default: ''
+    description: IP address/subnet on the ctlplane network
+    type: string
+  ControlPlaneSubnetCidr:
+    default: ''
+    description: >
+      The subnet CIDR of the control plane network. (The parameter is
+      automatically resolved from the ctlplane subnet's cidr attribute.)
+    type: string
+  ControlPlaneDefaultRoute:
+    default: ''
+    description: The default route of the control plane network. (The parameter
+      is automatically resolved from the ctlplane subnet's gateway_ip attribute.)
+    type: string
+  ControlPlaneStaticRoutes:
+    default: []
+    description: >
+      Routes for the ctlplane network traffic.
+      JSON route e.g. [{'destination':'10.0.0.0/16', 'nexthop':'10.0.0.1'}]
+      Unless the default is changed, the parameter is automatically resolved
+      from the subnet host_routes attribute.
+    type: json
+  ControlPlaneMtu:
+    default: 1500
+    description: The maximum transmission unit (MTU) size(in bytes) that is
+      guaranteed to pass through the data path of the segments in the network.
+      (The parameter is automatically resolved from the ctlplane network's mtu attribute.)
+    type: number
+
+  StorageIpSubnet:
+    default: ''
+    description: IP address/subnet on the storage network
+    type: string
+  StorageNetworkVlanID:
+    default: 30
+    description: Vlan ID for the storage network traffic.
+    type: number
+  StorageMtu:
+    default: 1500
+    description: The maximum transmission unit (MTU) size(in bytes) that is
+      guaranteed to pass through the data path of the segments in the
+      Storage network.
+    type: number
+  StorageInterfaceRoutes:
+    default: []
+    description: >
+      Routes for the storage network traffic.
+      JSON route e.g. [{'destination':'10.0.0.0/16', 'nexthop':'10.0.0.1'}]
+      Unless the default is changed, the parameter is automatically resolved
+      from the subnet host_routes attribute.
+    type: json
+  StorageMgmtIpSubnet:
+    default: ''
+    description: IP address/subnet on the storage_mgmt network
+    type: string
+  StorageMgmtNetworkVlanID:
+    default: 40
+    description: Vlan ID for the storage_mgmt network traffic.
+    type: number
+  StorageMgmtMtu:
+    default: 1500
+    description: The maximum transmission unit (MTU) size(in bytes) that is
+      guaranteed to pass through the data path of the segments in the
+      StorageMgmt network.
+    type: number
+  StorageMgmtInterfaceRoutes:
+    default: []
+    description: >
+      Routes for the storage_mgmt network traffic.
+      JSON route e.g. [{'destination':'10.0.0.0/16', 'nexthop':'10.0.0.1'}]
+      Unless the default is changed, the parameter is automatically resolved
+      from the subnet host_routes attribute.
+    type: json
+  DnsServers: # Override this via parameter_defaults
+    default: []
+    description: >
+      DNS servers to use for the Overcloud (2 max for some implementations).
+      If not set the nameservers configured in the ctlplane subnet's
+      dns_nameservers attribute will be used.
+    type: comma_delimited_list
+  DnsSearchDomains: # Override this via parameter_defaults
+    default: []
+    description: A list of DNS search domains to be added (in order) to resolv.conf.
+    type: comma_delimited_list
+  BondInterfaceOvsOptions:
+    default: bond_mode=active-backup
+    description: 'The ovs_options or bonding_options string for the bond
+      interface. Set things like lacp=active and/or bond_mode=balance-slb
+      for OVS bonds or like mode=4 for Linux bonds using this option.'
+    type: string
+resources:
+
+  OsNetConfigImpl:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: script
+      config:
+        str_replace:
+          template:
+            get_file: /usr/share/openstack-tripleo-heat-templates/network/scripts/run-os-net-config.sh
+          params:
+            $network_config:
+              network_config:
+              - type: interface
+                name: nic1
+                mtu:
+                  get_param: ControlPlaneMtu
+                use_dhcp: false
+                addresses:
+                - ip_netmask:
+                    list_join:
+                    - /
+                    - - get_param: ControlPlaneIp
+                      - get_param: ControlPlaneSubnetCidr
+                routes:
+                  list_concat_unique:
+                    - get_param: ControlPlaneStaticRoutes
+
+#------------ bond0: Storage
+              - type: linux_bond
+                name: bond0
+                mtu: 9000
+                use_dhcp: false
+                bonding_options: "mode=4 miimon=100"
+                members:
+                - type: interface
+                  name: ens4f0
+                  mtu: 9000
+                  primary: true
+                - type: interface
+                  name: ens8f0
+                  mtu: 9000
+              - type: vlan
+                device: bond0
+                mtu: 9000
+                vlan_id:
+                  get_param: StorageMgmtNetworkVlanID
+                addresses:
+                - ip_netmask:
+                    get_param: StorageMgmtIpSubnet
+                routes:
+                  list_concat_unique:
+                    - get_param: StorageMgmtInterfaceRoutes
+
+#------------ bond1: Storage
+              - type: linux_bond
+                name: bond1
+                mtu: 9000
+                use_dhcp: false
+                bonding_options: "mode=4 miimon=100"
+                members:
+                - type: interface
+                  name: ens4f1
+                  mtu: 9000
+                  primary: true
+                - type: interface
+                  name: ens5f0
+                  mtu: 9000
+              - type: vlan
+                device: bond1
+                mtu: 9000
+                vlan_id:
+                  get_param: StorageNetworkVlanID
+                addresses:
+                - ip_netmask:
+                    get_param: StorageIpSubnet
+                routes:
+                  list_concat_unique:
+                    - get_param: StorageInterfaceRoutes
+
+outputs:
+  OS::stack_id:
+    description: The OsNetConfigImpl resource.
+    value:
+      get_resource: OsNetConfigImpl

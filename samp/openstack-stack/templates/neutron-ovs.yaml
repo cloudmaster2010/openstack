@@ -1,0 +1,39 @@
+# A Heat environment file that enables DVR in the overcloud. Used with Compute
+# DVR role. Note that the network configuration is consistent with the default
+# tripleo network templates so some customization is likely required for
+# production deployments.
+resource_registry:
+  # Default Neutron ML2 puppet plugin to use when NeutronCorePlugin is set to ML2
+  # FIXME(bogdando): can not be switched yet due to puppet-base issues
+  # see https://review.opendev.org/#/c/563443
+  OS::TripleO::Docker::NeutronMl2PluginBase: /home/stack/templates/rendered/deployment/neutron/neutron-plugin-ml2.yaml
+
+  OS::TripleO::Services::NeutronServer: /home/stack/templates/rendered/deployment/neutron/neutron-api-container-puppet.yaml
+  OS::TripleO::Services::NeutronApi: /home/stack/templates/rendered/deployment/neutron/neutron-api-container-puppet.yaml
+  OS::TripleO::Services::NeutronCorePlugin: /home/stack/templates/rendered/deployment/neutron/neutron-plugin-ml2-container-puppet.yaml
+  OS::TripleO::Services::NeutronMetadataAgent: /home/stack/templates/rendered/deployment/neutron/neutron-metadata-container-puppet.yaml
+  OS::TripleO::Services::NeutronOvsAgent: /home/stack/templates/rendered/deployment/neutron/neutron-ovs-agent-container-puppet.yaml
+  OS::TripleO::Services::NeutronDhcpAgent: /home/stack/templates/rendered/deployment/neutron/neutron-dhcp-container-puppet.yaml
+  OS::TripleO::Services::ComputeNeutronOvsAgent: /home/stack/templates/rendered/deployment/neutron/neutron-ovs-agent-container-puppet.yaml
+  OS::TripleO::Services::NeutronL3Agent: /home/stack/templates/rendered/deployment/neutron/neutron-l3-container-puppet.yaml
+
+  # Disable OVN services
+  OS::TripleO::Services::OVNController: OS::Heat::None
+  OS::TripleO::Services::OVNDBs: OS::Heat::None
+  OS::TripleO::Services::OVNMetadataAgent: OS::Heat::None
+  OS::TripleO::Network::Ports::OVNDBsVipPort: /home/stack/templates/rendered/network/ports/noop.yaml
+
+parameter_defaults:
+
+  NeutronMechanismDrivers: ['openvswitch']
+  NeutronPluginExtensions: "qos,port_security"
+
+  #NeutronTypeDrivers: 'vxlan,vlan,flat,gre'
+  #NeutronNetworkType: 'vxlan'
+  NeutronServicePlugins: 'router,qos,segments,trunk,port_forwarding'
+  NeutronVniRanges: ['1:65536', ]
+  KernelIpNonLocalBind: 0
+
+  NeutronEnableDVR: false
+
+  NeutronL3AgentExtensions: "port_forwarding"

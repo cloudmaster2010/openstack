@@ -1,0 +1,6 @@
+resource_registry:
+  OS::TripleO::ControllerExtraConfigPre: /home/stack/templates/add-stf-hostname.yaml
+  OS::TripleO::ComputeExtraConfigPre: /home/stack/templates/add-stf-hostname.yaml
+parameter_defaults:
+  stf_connect: default-interconnect-5671-service-telemetry.apps.stf.pobis.kr
+

@@ -1,0 +1,23 @@
+# This template allows the IPs to be preselected for each VIP. Note that
+# this template should be included after other templates which affect the
+# network such as network-isolation.yaml.
+
+resource_registry:
+  OS::TripleO::Network::Ports::ExternalVipPort: /home/stack/templates/rendered/network/ports/external.yaml
+  OS::TripleO::Network::Ports::InternalApiVipPort: /home/stack/templates/rendered/network/ports/internal_api.yaml
+  OS::TripleO::Network::Ports::StorageVipPort: /home/stack/templates/rendered/network/ports/storage.yaml
+  OS::TripleO::Network::Ports::RedisVipPort: /home/stack/templates/rendered/network/ports/vip.yaml
+  OS::TripleO::Network::Ports::OVNDBsVipPort: /home/stack/templates/rendered/network/ports/vip.yaml
+
+
+parameter_defaults:
+  # Set the IP addresses of the VIPs here.
+  # NOTE: we will eventually move to one VIP per service
+  #
+  ControlFixedIPs: [{'ip_address':'10.134.36.90'}]
+  PublicVirtualFixedIPs: [{'ip_address':'10.134.36.91'}]
+  InternalApiVirtualFixedIPs: [{'ip_address':'10.134.38.49'}]
+  StorageVirtualFixedIPs: [{'ip_address':'10.134.36.251'}]
+  RedisVirtualFixedIPs: [{'ip_address':'10.134.38.51'}]
+  OVNDBsVirtualFixedIPs: [{'ip_address':'10.134.38.50'}]
+  

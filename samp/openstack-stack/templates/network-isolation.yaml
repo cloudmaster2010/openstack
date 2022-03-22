@@ -1,0 +1,16 @@
+# Enable the creation of Neutron networks for isolated Overcloud
+# traffic and configure each role to assign ports (related
+# to that role) on these networks.
+resource_registry:
+  # networks as defined in network_data.yaml
+  OS::TripleO::Network::Storage: /home/stack/templates/rendered/network/storage.yaml
+  OS::TripleO::Network::InternalApi: /home/stack/templates/rendered/network/internal_api.yaml
+
+  # Port assignments by role, edit role definition to assign networks to roles.
+  # Port assignments for the Controller
+  OS::TripleO::Controller::Ports::StoragePort: /home/stack/templates/rendered/network/ports/storage.yaml
+  OS::TripleO::Controller::Ports::InternalApiPort: /home/stack/templates/rendered/network/ports/internal_api.yaml
+
+  # Port assignments for the Compute
+  OS::TripleO::Compute::Ports::StoragePort: /home/stack/templates/rendered/network/ports/storage.yaml
+  OS::TripleO::Compute::Ports::InternalApiPort: /home/stack/templates/rendered/network/ports/internal_api.yaml

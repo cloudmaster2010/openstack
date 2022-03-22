@@ -1,0 +1,92 @@
+parameter_defaults:
+
+  #---------- controller, compute multipath setting --------------------
+  NovaLibvirtVolumeUseMultipath: true
+  MultipathdEnable: true
+  MultipathdEnableUserFriendlyNames: false
+  MultipathdEnableFindMultipaths: false
+  #---------------------------------------------------------------------
+
+#parameter_defaults:
+#  CinderEnableDellEMCUnityBackend: true
+#  CinderDellEMCUnityBackendName: 'tripleo_dellemc_unity'
+#  CinderDellEMCUnitySanIp: ''
+#  CinderDellEMCUnitySanLogin: 'Admin'
+#  CinderDellEMCUnitySanPassword: ''
+#  CinderDellEMCUnityStorageProtocol: 'iSCSI'
+#  CinderDellEMCUnityIoPorts: ''
+#  CinderDellEMCUnityStoragePoolNames: ''
+
+#  - tripleo::profile::base::cinder::volume::cinder_enable_dellemc_unity_backend: {get_param: CinderEnableDellEMCUnityBackend}
+#    cinder::backend::dellemc_unity::volume_backend_name: {get_param: CinderDellEMCUnityBackendName}
+#    cinder::backend::dellemc_unity::san_ip: {get_param: CinderDellEMCUnitySanIp}
+#    cinder::backend::dellemc_unity::san_login: {get_param: CinderDellEMCUnitySanLogin}
+#    cinder::backend::dellemc_unity::san_password: {get_param: CinderDellEMCUnitySanPassword}
+#    cinder::backend::dellemc_unity::storage_protocol: {get_param: CinderDellEMCUnityStorageProtocol}
+#    cinder::backend::dellemc_unity::unity_io_ports: {get_param: CinderDellEMCUnityIoPorts}
+#    cinder::backend::dellemc_unity::unity_storage_pool_names: {get_param: CinderDellEMCUnityStoragePoolNames}
+#  -
+#    if:
+#    - {equals : [{get_param: CinderDellEMCUnityAvailabilityZone}, '']}
+#    - {}
+#    - cinder::backend::dellemc_unity::backend_availability_zone: {get_param: CinderDellEMCUnityAvailabilityZone}
+
+
+#  ControllerExtraConfig:
+#    barbican::keystone::authtoken::memcache_use_advanced_pool: true
+#    cinder::keystone::authtoken::memcache_use_advanced_pool: true
+#    glance::api::authtoken::memcache_use_advanced_pool: true
+#    neutron::keystone::authtoken::memcache_use_advanced_pool: true
+#    nova::keystone::authtoken::memcache_use_advanced_pool: true
+#    nova::metadata::novajoin::authtoken::memcache_use_advanced_pool: true
+#    placement::keystone::authtoken::memcache_use_advanced_pool: true
+
+    cinder::config::cinder_config:
+      dellemc_unity/cinder_enable_dellemc_unity_backend:
+        value:
+      dellemc_unity/volume_backend_name:
+        value:
+      dellemc_unity/san_ip:
+        value:
+      dellemc_unity/san_password:
+        value:
+      dellemc_unity/storage_protocol:
+        value:
+      dellemc_unity/unity_io_ports:
+        value:
+      dellemc_unity/unity_storage_pool_names:
+        value:
+      dellemc_unity/volume_driver:
+        value: cinder.volume.drivers.dell_emc.unity.Driver
+  
+#      unity/volume_backend_name:
+#        value: True
+#      unity/hitachi_default_copy_method:
+#        value: FULL
+#      unity/hitachi_group_request:
+#        value: False
+#        #value: True
+#      unity/hitachi_group_delete:
+#        value: False
+#      unity/hitachi_rest_disable_io_wait:
+#        value: True
+#      unity/use_multipath_for_image_xfer:
+#        value: True
+#      unity/hitachi_storage_id:
+#        value: 900000031054
+#      unity/hitachi_rest_api_ip:
+#        value: 10.91.210.213
+#      unity/hitachi_rest_user:
+#        value: openstackuser
+#      unity/hitachi_rest_password:
+#        value: openstackpassword
+#      unity/hitachi_pool:
+#        value: 2
+#      unity/hitachi_target_ports:
+#        value: CL1-C,CL2-C
+#      unity/hitachi_compute_target_ports:
+#        value: CL5-C,CL6-C,CL7-C,CL8-C
+
+
+    cinder_user_enabled_backends: ['dellemc_unity']
+        

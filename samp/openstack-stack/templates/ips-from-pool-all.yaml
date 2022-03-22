@@ -1,0 +1,51 @@
+# Environment file demonstrating how to pre-assign IPs to all node types
+resource_registry:
+  OS::TripleO::Controller::Ports::InternalApiPort: /home/stack/templates/rendered/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Controller::Ports::StoragePort: /home/stack/templates/rendered/network/ports/storage_from_pool.yaml
+
+  OS::TripleO::Compute::Ports::InternalApiPort: /home/stack/templates/rendered/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Compute::Ports::StoragePort: /home/stack/templates/rendered/network/ports/storage_from_pool.yaml
+
+parameter_defaults:
+  ControllerIPs:
+    # Each controller will get an IP from the lists below, first controller, first IP
+    ctlplane:
+    - 10.134.36.51
+    - 10.134.36.52
+    - 10.134.36.53
+    internal_api:
+    - 10.134.38.33
+    - 10.134.38.34
+    - 10.134.38.35
+    storage:
+    - 10.134.36.140
+    - 10.134.36.141
+    - 10.134.36.142
+  ComputeIPs:
+    # Each compute will get an IP from the lists below, first compute, first IP
+    ctlplane:
+    - 10.134.36.54
+    - 10.134.36.55
+    - 10.134.36.56
+    - 10.134.36.57
+    - 10.134.36.58
+    - 10.134.36.59
+    - 10.134.36.60
+
+    internal_api:
+    - 10.134.38.36
+    - 10.134.38.37
+    - 10.134.38.38
+    - 10.134.38.39
+    - 10.134.38.40
+    - 10.134.38.41
+    - 10.134.38.42
+
+    storage:
+    - 10.134.36.143
+    - 10.134.36.144
+    - 10.134.36.145
+    - 10.134.36.146
+    - 10.134.36.147
+    - 10.134.36.148
+    - 10.134.36.149

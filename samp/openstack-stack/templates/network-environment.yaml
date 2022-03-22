@@ -1,0 +1,34 @@
+#This file is an example of an environment file for defining the isolated
+#networks and related parameters.
+resource_registry:
+  OS::TripleO::Controller::Net::SoftwareConfig: /home/stack/templates/nic-config/controller.yaml
+  OS::TripleO::Compute::Net::SoftwareConfig: /home/stack/templates/nic-config/compute.yaml
+
+parameter_defaults:
+
+  AdminPassword: "P@ssw0rd#@!"
+  NtpServer: ['10.134.36.69']
+  TimeZone: 'Asia/Seoul'
+  SshServerOptions:
+    UseDns: 'no'
+    PermitRootLogin: 'yes'
+    PasswordAuthentication: 'yes'   
+
+  NetworkDeploymentActions: ['CREATE','UPDATE']
+
+  DnsServers: []
+  # List of Neutron network types for tenant networks (will be used in order)
+  #NeutronNetworkType: 'geneve,vlan'
+  NeutronNetworkType: 'vlan'
+  NeutronBridgeMappings: 'svc:br-svc'
+  NeutronNetworkVLANRanges: 'svc'
+  BondInterfaceOvsOptions: "bond_mode=active-backup"
+
+  NovaCPUAllocationRatio: 3.0
+  NovaRAMAllocationRatio: 1.5
+
+  DockerInsecureRegistryAddress: ["10.134.36.74:5000"]
+
+  ServiceNetMap:
+    PublicNetwork: ctlplane
+    BINDNetwork: ctlplane

@@ -1,0 +1,26 @@
+parameter_defaults:
+  OvercloudControllerFlavor: baremetal
+  OvercloudComputeFlavor: baremetal
+  OvercloudCephStorageFlavor: baremetal
+
+  ControllerCount: 3
+  ComputeCount: 7
+  CephStorageCount: 0
+
+  ControllerSchedulerHints:
+    'capabilities:node': 'controller-%index%'
+  ComputeSchedulerHints:
+    'capabilities:node': 'compute-%index%'
+  
+  HostnameMap:
+    overcloud-controller-0: L33-38DELL
+    overcloud-controller-1: L34-38DELL
+    overcloud-controller-2: L35-38DELL
+  
+    overcloud-novacompute-0: L36-38DELL
+    overcloud-novacompute-1: L37-38DELL
+    overcloud-novacompute-2: L38-38DELL
+    overcloud-novacompute-3: L39-38DELL
+    overcloud-novacompute-4: L40-38DELL
+    overcloud-novacompute-5: L41-38DELL
+    overcloud-novacompute-6: L42-38DELL
